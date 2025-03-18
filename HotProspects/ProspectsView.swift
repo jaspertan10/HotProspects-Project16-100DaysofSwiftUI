@@ -42,22 +42,26 @@ struct ProspectsView: View {
     var body: some View {
         NavigationStack {
             List(prospects, selection: $selectedProspects) { prospect in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(prospect.name)
-                            .font(.headline)
+                NavigationLink {
+                    ProspectDetailView(prospect: prospect)
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(prospect.name)
+                                .font(.headline)
+                            
+                            Text(prospect.emailAddress)
+                                .foregroundStyle(.gray)
+                        }
                         
-                        Text(prospect.emailAddress)
-                            .foregroundStyle(.gray)
-                    }
-                    
-                    Spacer()
-                    
-                    if (prospect.isContacted) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.green)
-                    } else {
-                        Image(systemName: "iphone.slash.circle.fill")
+                        Spacer()
+                        
+                        if (prospect.isContacted) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                        } else {
+                            Image(systemName: "iphone.slash.circle.fill")
+                        }
                     }
                 }
                 .swipeActions {
