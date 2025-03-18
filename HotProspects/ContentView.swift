@@ -11,20 +11,24 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var sortOrder = [
+        SortDescriptor(\Prospect.name)
+    ]
+    
     var body: some View {
 
         TabView {
-            ProspectsView(filter: .none)
+            ProspectsView(filter: .none, sortOrder: sortOrder)
                 .tabItem {
                     Label("Everyone", systemImage: "person.3")
                 }
             
-            ProspectsView(filter: .contacted)
+            ProspectsView(filter: .contacted, sortOrder: sortOrder)
                 .tabItem {
                     Label("Contacted", systemImage: "checkmark.circle")
                 }
             
-            ProspectsView(filter: .uncontacted)
+            ProspectsView(filter: .uncontacted, sortOrder: sortOrder)
                 .tabItem {
                     Label("Uncontacted", systemImage: "questionmark.diamond")
                 }
@@ -34,6 +38,17 @@ struct ContentView: View {
                     Label("Me", systemImage: "person.crop.square")
                 }
         }
+        
+        Menu("Sort Order", systemImage: "line.3.horizontal.decrease.circle") {
+            Picker("Sort Order", selection: $sortOrder) {
+                Text("Sort by Name")
+                    .tag([SortDescriptor(\Prospect.name)])
+                
+                Text("Sort by Most Recent")
+                    .tag([SortDescriptor(\Prospect.createdDate)])
+            }
+        }
+        
     }
 }
 
